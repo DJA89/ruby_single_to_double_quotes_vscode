@@ -2,7 +2,7 @@
 describe "Deleting some double quotes" do
   # find and replace to substitute ruby double quotes with single quotes where applicable
   # on find put the following regex without backquotes
-  # `^((?:(?:[^"'])|(?:'(?:[^\\']|(?:\\.))*'))*)"((?!(?:(?:[^\\"])|(?:\\[^"]))*(?:(?:#\{.*\})|'))(?:(?:[^\\"])|(?:\\[^"]))*)"`
+  # `^((?:(?:[^"'])|(?:'(?:[^\\']|(?:\\.))*'))*)"((?!(?:(?:[^\\"])|(?:\\[^"]))*(?:(?:\\?#\{.*\})|'))(?:(?:[^\\"])|(?:\\[^"]))*)"`
   # on replace put `$1'$2'` without backquotes
 
   INTERPOLATION = 'some string to interpolate'.freeze
@@ -26,14 +26,14 @@ describe "Deleting some double quotes" do
         puts "nice string"; puts "This isn't going to get substituted"; expect("neither will this :(").to_not eq('neither will this :(')
 
         # note, this last example _would_ work with the following regex in theory:
-        # `^((?:(?:(?:[^'"])|(?:'(?:[^\\']|(?:\\.))*'))|(?:(?:(?:[^'"])|(?:"(?:[^\\"]|(?:\\.))*"))))*)"((?!(?:(?:[^\\"])|(?:\\[^"]))*(?:(?:#\{.*\})|'))(?:(?:[^\\"])|(?:\\[^"]))*)"`
+        # `^((?:(?:(?:[^'"])|(?:'(?:[^\\']|(?:\\.))*'))|(?:(?:(?:[^'"])|(?:"(?:[^\\"]|(?:\\.))*"))))*)"((?!(?:(?:[^\\"])|(?:\\[^"]))*(?:(?:\\?#\{.*\})|'))(?:(?:[^\\"])|(?:\\[^"]))*)"`
         # but it crashes my VSCode, so probably not a good idea to use it
         # as it is, only the first double-quoted regex in each line is considered on each find
 
         # note 2, it is possible to look for strings from the back of the line and then this example would work,
         # but strings between other double-quoted strings wouldn't work
         # I'd use something like this:
-        # `"((?!(?:(?:[^\\"])|(?:\\[^"]))*(?:(?:#\{.*\})|'))(?:(?:[^\\"])|(?:\\[^"]))*)"((?:(?:[^"'])|(?:'(?:[^\\']|(?:\\.))*'))*)$`
+        # `"((?!(?:(?:[^\\"])|(?:\\[^"]))*(?:(?:\\?#\{.*\})|'))(?:(?:[^\\"])|(?:\\[^"]))*)"((?:(?:[^"'])|(?:'(?:[^\\']|(?:\\.))*'))*)$`
         # with `'$1'$2`
         # also, if I could have infinite capture groups then this could also be possible
         # but I haven't found a way of doing so
